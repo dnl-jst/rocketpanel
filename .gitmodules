@@ -1,0 +1,3 @@
+[submodule "dockerfiles/docker-mysql"]
+	path = dockerfiles/docker-mysql
+	url = git@github.com:dnl-jst/docker-mysql.git

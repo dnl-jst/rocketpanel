@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.15
+FROM phusion/baseimage:0.9.17
 
 # Ensure UTF-8
 RUN locale-gen en_US.UTF-8
