@@ -1,12 +1,29 @@
 #!/bin/bash
-
 apt-get -qq -y update
 
-apt-get -qq -y install \
-    linux-image-extra-$(uname -r) \
-    linux-image-extra-virtual
-
+# install docker
 wget -qO- https://get.docker.com/ | sh
 
-docker pull dnljst/rocketpanel-control
-docker run -e "WEB_DOCUMENT_ROOT=/app/web" -v /opt/rocketpanel/:/rocketpanel -d -p 8443:443 --name rocketpanel-control dnljst/rocketpanel-control
+# create mysql data directory
+mkdir -p /opt/rocketpanel/mysql/data/
+
+# create vendor directory
+mkdir /app/vendor/
+
+# create main mysql container
+docker run -d \
+	--name rocketpanel-mysql \
+	-e "MYSQL_ROOT_PASSWORD=rootpass" \
+	-e "MYSQL_DATABASE=rocketpanel" \
+	-v /opt/rocketpanel/mysql/data/:/var/lib/mysql \
+	mysql:5.7
+
+# create rocketpanel control container
+docker run -d \
+	--name rocketpanel-control \
+	--link rocketpanel-mysql:mysql \
+	-e "WEB_DOCUMENT_ROOT=/app/web" \
+	-v /opt/rocketpanel/:/rocketpanel \
+	-p 8443:443 \
+	dnljst/rocketpanel-control
+
