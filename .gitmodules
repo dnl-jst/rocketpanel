@@ -1,6 +1,0 @@
-[submodule "dockerfiles/docker-mysql"]
-	path = dockerfiles/docker-mysql
-	url = git@github.com:dnl-jst/docker-mysql.git
-[submodule "dockerfiles/rocketpanel-nginx-php"]
-	path = dockerfiles/rocketpanel-nginx-php
-	url = git@github.com:dnl-jst/rocketpanel-nginx-php.git
