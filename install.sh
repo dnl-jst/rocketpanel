@@ -7,24 +7,18 @@ wget -qO- https://get.docker.com/ | sh
 # create mysql data directory
 mkdir -p /opt/rocketpanel/mysql/data/
 
-# create vendor directory
-mkdir /app/vendor/
+# create logs directory
+mkdir -p /opt/rocketpanel/logs
 
-# create main mysql container
-docker run -d \
-	--name rocketpanel-mysql \
-	-e "MYSQL_ROOT_PASSWORD=rootpass" \
-	-e "MYSQL_DATABASE=rocketpanel" \
-	-v /opt/rocketpanel/mysql/data/:/var/lib/mysql \
-	mysql:5.7
+# create vhosts directory
+mkdir -p /opt/rocketpanel/vhosts
 
-# create rocketpanel control container
+# generate root password
+date +%s | sha256sum | base64 | head -c 32 > /opt/rocketpanel/.rocketpanel-mysql-root-password
+
+# create update container which will install all necessary containers
 docker run -d \
-	--name rocketpanel-control \
-	--link rocketpanel-mysql:mysql \
-	-e "WEB_DOCUMENT_ROOT=/app/web" \
-	-v /opt/rocketpanel/:/opt/rocketpanel \
+	--name rocketpanel-updater \
+	-v /opt/rocketpanel:/opt/rocketpanel \
 	-v /var/run/docker.sock:/var/run/docker.sock \
-	-p 8443:443 \
-	dnljst/rocketpanel-control
-
+	dnljst/rocketpanel-updater
