@@ -17,7 +17,7 @@ mkdir -p /opt/rocketpanel/vhosts
 date +%s | sha256sum | base64 | head -c 32 > /opt/rocketpanel/.rocketpanel-mysql-root-password
 
 # create update container which will install all necessary containers
-docker run -d \
+docker run -d --rm \
 	--name rocketpanel-updater \
 	-v /opt/rocketpanel:/opt/rocketpanel \
 	-v /var/run/docker.sock:/var/run/docker.sock \
