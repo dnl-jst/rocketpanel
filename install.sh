@@ -13,6 +13,12 @@ mkdir -p /opt/rocketpanel/logs
 # create vhosts directory
 mkdir -p /opt/rocketpanel/vhosts
 
+# try to remove old rocketpanel-updater instance
+docker rm -f rocketpanel-updater
+
+# pull latest rocketpanel-updater
+docker pull rocketpanel-updater
+
 # generate root password
 date +%s | sha256sum | base64 | head -c 32 > /opt/rocketpanel/.rocketpanel-mysql-root-password
 
