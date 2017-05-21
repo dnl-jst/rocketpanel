@@ -23,7 +23,8 @@ docker run -d \
 	--name rocketpanel-control \
 	--link rocketpanel-mysql:mysql \
 	-e "WEB_DOCUMENT_ROOT=/app/web" \
-	-v /opt/rocketpanel/:/rocketpanel \
+	-v /opt/rocketpanel/:/opt/rocketpanel \
+	-v /var/run/docker.sock:/var/run/docker.sock \
 	-p 8443:443 \
 	dnljst/rocketpanel-control
 
